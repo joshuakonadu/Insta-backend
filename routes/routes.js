@@ -8,4 +8,7 @@ var UserCon = require('../controllers/usercon');
 
 module.exports = app => {
     app.get('/api/test', UserCon.test);
+    app.post('/register',UserCon.registerUser)
+    app.post('/login',UserCon.loginUser)
+    app.get('getUserData',authenticate(),UserCon.getUserData)
 };
