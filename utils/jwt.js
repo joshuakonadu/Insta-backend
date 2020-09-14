@@ -15,7 +15,7 @@ function authenticate() {
             return res.status(403).json({message: 'Auth token wrong format'});
         }
 
-        jwt.verify(token, 'secretNotReally', async (err, decoded) => {
+        jwt.verify(token, 'secretKey', async (err, decoded) => {
             if (err) {
                 return res.status(403).json({message: 'Token is not valid'});
             } 

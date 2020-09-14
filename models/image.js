@@ -13,7 +13,7 @@ const ImageSchema = new Schema({
     description: {type:String, default:''},
 }, {timestamps: { createdAt: true, updatedAt: true },collection: 'images'});
 
-UserSchema.plugin(pagination); // adds pagination
-UserSchema.set('autoIndex', false);
+ImageSchema.plugin(pagination); // adds pagination
+ImageSchema.set('autoIndex', false);
 
 exports.production = db_prod.model('Image', ImageSchema);

@@ -70,7 +70,7 @@ exports.loginUser = async (req, res) => {
 }
 
 exports.getUserData = async (req, res) => {
-    const userId = req.user.id
+    const userId = req.user._id
 
     var findUser = await User.findById(userId, 'avatar typedName description').lean();
     if (!findUser) return res.status(417).json({message: "The User <"+userId+"> does not exist!"});
@@ -78,4 +78,24 @@ exports.getUserData = async (req, res) => {
     var findImages = await Image.find({userId:userId},'image').lean()
 
     return res.status(200).json({message:'success',userData:findUser,images:findImages})
+}
+
+exports.changeAvatar = async (req,res) =>{
+    const userId = req.user._id
+    const avatar = req.body.avatar
+
+    var findUser = await User.findById(userId, 'avatar')
+    if (!findUser) return res.status(417).json({message: "The User <"+userId+"> does not exist!"});
+
+    findUser.avatar.imageB64 = avatar.image;
+    findUser.avatar.format = avatar.format;
+    try{
+        await findUser.save();
+    }
+    catch(error){
+        return res.status(417).json({message: "The User could not be safed"});
+    }
+
+
+    return res.status(200).json({message:'success',avatar:findUser.avatar})
 }
