@@ -73,7 +73,7 @@ exports.getUserData = async (req, res) => {
         var findUser = await User.findById(userId, 'avatar typedName description').lean();
         if (!findUser) return res.status(417).json({message: "The User <"+userId+"> does not exist!"});
 
-        var findImages = await Image.find({userId:userId},'image').lean()
+        var findImages = await Image.find({userId:userId}).lean()
 
         return res.status(200).json({message:'success',userData:findUser,images:findImages})
     }catch(error){
@@ -82,23 +82,22 @@ exports.getUserData = async (req, res) => {
 }
 
 exports.changeAvatar = async (req,res) =>{
-    const userId = req.user._id;
-    const avatar = req.body.avatar;
-
-    var findUser = await User.findById(userId, 'avatar');
-    if (!findUser) return res.status(417).json({message: "The User <"+userId+"> does not exist!"});
-
-    findUser.avatar.imageB64 = avatar.image;
-    findUser.avatar.format = avatar.format;
     try{
+        const userId = req.user._id;
+        const avatar = req.body.avatar;
+
+        var findUser = await User.findById(userId, 'avatar');
+        if (!findUser) return res.status(417).json({message: "The User <"+userId+"> does not exist!"});
+
+        findUser.avatar.imageB64 = avatar.image;
+        findUser.avatar.format = avatar.format;
+    
         await findUser.save();
+        return res.status(200).json({message:'success',avatar:findUser.avatar})
     }
     catch(error){
-        return res.status(417).json({message: "The User could not be safed"});
+        return res.status(417).json({message: error.message});
     }
-
-
-    return res.status(200).json({message:'success',avatar:findUser.avatar})
 }
 
 exports.uploadImages = async (req, res) => {
@@ -118,8 +117,7 @@ exports.uploadImages = async (req, res) => {
             });
             await newImage.save()
         }
-
-        let findImages = Image.find({userId:userId},'image')
+        let findImages = await Image.find({userId:userId}).lean()
 
         return res.status(200).json({message:'success',images:findImages})
 

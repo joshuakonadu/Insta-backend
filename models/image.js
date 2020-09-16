@@ -10,7 +10,9 @@ const ImageSchema = new Schema({
         format:{ type:String, default:'jpeg'},
         imageB64: {type:String, default:''}
     },
+    private:{type:Boolean, default:true},
     description: {type:String, default:''},
+    title: {type:String, default:''},
 }, {timestamps: { createdAt: true, updatedAt: true },collection: 'images'});
 
 ImageSchema.plugin(pagination); // adds pagination
