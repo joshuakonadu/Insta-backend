@@ -125,3 +125,17 @@ exports.uploadImages = async (req, res) => {
         return res.status(417).json({message: "The User could not be safed"});
     }
 }
+
+exports.getUserImage = async(req,res) =>{
+    try{
+        let imageId = req.params.id;
+
+        let findImage = await Image.findById(imageId).lean()
+        let findUser = await User.findById(findImage.userId,'avatar').lean()
+
+        return res.status(200).json({message:'success',image:findImage,avatar:findUser.avatar})
+    
+    }catch(error){
+        return res.status(417).json({message: "The User could not be safed"});
+    }    
+}

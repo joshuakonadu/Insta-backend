@@ -12,4 +12,5 @@ module.exports = app => {
     app.post('/api/change-avatar',authenticate(),UserCon.changeAvatar)
     app.get('/api/getUserData',authenticate(),UserCon.getUserData)
     app.post('/api/uploadImages',authenticate(),UserCon.uploadImages)
+    app.get('/api/getUserImage/:id',UserCon.getUserImage)
 };
