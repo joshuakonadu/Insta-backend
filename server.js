@@ -37,13 +37,6 @@ app.use(helmet())
 
 app.set('strict routing', true);
 
-// helpers ====================================================================
-
-// if (app.get('env').toLowerCase() === 'production') {
-//   app.use(logger('combined'));
-// } else {
-//   app.use(logger('dev'));
-// }
 
 // template engine ====================================================================
 

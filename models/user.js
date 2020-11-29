@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const pagination = require('../utils/pagination');
 const db_prod = require('../config/db');
 
 const UserSchema = new Schema({
@@ -18,7 +17,6 @@ const UserSchema = new Schema({
     notifications: { type: Array},
 }, {timestamps: { createdAt: true, updatedAt: true },collection: 'users'});
 
-UserSchema.plugin(pagination); // adds pagination
 UserSchema.set('autoIndex', false);
 
 exports.production = db_prod.model('User', UserSchema);

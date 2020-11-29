@@ -13,4 +13,5 @@ module.exports = app => {
     app.get('/api/getUserData',authenticate(),UserCon.getUserData)
     app.post('/api/uploadImages',authenticate(),UserCon.uploadImages)
     app.get('/api/getUserImage/:id',UserCon.getUserImage)
+    app.post('/api/deleteImage',authenticate(),UserCon.deleteImage)
 };

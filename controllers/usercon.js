@@ -3,7 +3,6 @@ const Image = require('../models/image').production
 const mongoose = require('mongoose');
 const jwt  = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
-var utils = require('../utils/utilfunctions');
 const { validationResult } = require('express-validator/check');
 
 const errorFormatter = ({ location, msg, param,value, nestedErrors }) => {
@@ -134,6 +133,19 @@ exports.getUserImage = async(req,res) =>{
         let findUser = await User.findById(findImage.userId,'avatar').lean()
 
         return res.status(200).json({message:'success',image:findImage,avatar:findUser.avatar})
+    
+    }catch(error){
+        return res.status(417).json({message: "The User could not be safed"});
+    }    
+}
+
+exports.deleteImage = async(req,res) =>{
+    try{
+        const id = req.body.id;
+
+        await Image.findByIdAndDelete(id);
+
+        return res.status(204).send();
     
     }catch(error){
         return res.status(417).json({message: "The User could not be safed"});
