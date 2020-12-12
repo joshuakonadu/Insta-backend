@@ -7,8 +7,20 @@ const v4 = require('uuid').v4;
 
 const imageDirectory = __dirname.replace("controllers", "images");
 
-const createImageDirIfNotExists = async (user) => {
+const createImageDirIfNotExists = () => {
     return new Promise(resolve => {
+        fs.access(imageDirectory, err => {
+            if (err) {
+                fs.mkdirSync(imageDirectory);
+            }
+            resolve();
+        });
+    });
+};
+
+const createDirIfNotExist = async (user) => {
+    return new Promise(async resolve => {
+        await createImageDirIfNotExists()
         let imageDir = `${imageDirectory}\\${user}`
         fs.access(imageDir, err => {
             if (err) {
@@ -20,7 +32,7 @@ const createImageDirIfNotExists = async (user) => {
 };
 
 const saveImage = async (b64, format,userId) => {
-    await createImageDirIfNotExists(userId);
+    await createDirIfNotExist(userId);
     const fileName = v4() + `.${format}`;
     fs.writeFile(`${imageDirectory}/${userId}/${fileName}`, b64, { encoding: "base64" }, err => {
         if (err) throw Error(err.toString());
