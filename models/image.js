@@ -5,10 +5,7 @@ const db_prod = require('../config/db');
 const ImageSchema = new Schema({
     userId: {type: Schema.Types.ObjectId, ref: 'User', unique: false, required: false, index: true},
     likes: { type: Array,default:[]},
-    image: {
-        format:{ type:String, default:'jpeg'},
-        imageB64: {type:String, default:''}
-    },
+    imageUri: {type:String, default:''},
     private:{type:Boolean, default:true},
     description: {type:String, default:''},
     title: {type:String, default:''},
