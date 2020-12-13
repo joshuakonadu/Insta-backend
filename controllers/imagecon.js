@@ -65,7 +65,7 @@ exports.uploadImages = async (req, res) => {
             });
             await newImage.save()
         }
-        let findImages = await Image.find({userId:userId}).lean()
+        let findImages = await Image.find({userId:userId}).sort({ createdAt: -1 }).lean()
 
         return res.status(200).json({message:'success',images:findImages})
 
@@ -78,7 +78,7 @@ exports.getUserImage = async(req,res) =>{
     try{
         let imageId = req.params.id;
 
-        let findImage = await Image.findById(imageId).lean()
+        let findImage = await Image.findById(imageId).sort({ createdAt: -1 }).lean()
         let findUser = await User.findById(findImage.userId,'avatar').lean()
 
         return res.status(200).json({message:'success',image:findImage,avatar:findUser.avatar})
